@@ -18,12 +18,12 @@ app.use(cors());
 app.listen(process.env.SERVER_PORT, async () => {
   console.log("server is running ", process.env.SERVER_PORT);
   console.info(process.env.MONGODB_URI);
-/*  await mongoose.connect(process.env.MONGODB_URI, {
+  await mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });*/
+  });
 });
-/*
+
 mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection error:")
@@ -40,4 +40,3 @@ app.use(
     };
   })
 );
-*/
