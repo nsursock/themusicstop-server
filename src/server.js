@@ -15,12 +15,13 @@ const extensions = ({ context }) => {
 app.use(express.json());
 app.use(cors());
 
-app.listen(process.env.SERVER_PORT, async () => {
-  console.log("server is running ", process.env.SERVER_PORT);
-  console.info(process.env.MONGODB_URI);
-  await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+app.listen(process.env.PORT || 4201, async () => {
+  console.log("server is running");
+  console.info(process.env.MONGODB_URI || process.env.DATABASE_URL);
+  await mongoose.connect(
+    process.env.MONGODB_URI || process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
   });
 });
 
@@ -28,6 +29,7 @@ mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection error:")
 );
+
 const graphqlSchema = require("./schemas/index");
 app.use(
   "/graphql",
