@@ -1,5 +1,5 @@
-const { SongTC } = require("../model/song");
-const { SongSchema } = require("../model/song");
+const { SongTC } = require("../models/song");
+const { SongSchema } = require("../models/song");
 
 SongTC.addResolver({
   name: "create",

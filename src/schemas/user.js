@@ -1,5 +1,5 @@
-const { UserTC } = require("../model/user");
-//require("../mutation/user.mutation");
+const { UserTC } = require("../models/user");
+require("../test/user");
 const UserQuery = {
   userById: UserTC.getResolver("findById"),
   userByIds: UserTC.getResolver("findByIds"),
@@ -19,7 +19,7 @@ const UserMutation = {
   userRemoveById: UserTC.getResolver("removeById"),
   userRemoveOne: UserTC.getResolver("removeOne"),
   userRemoveMany: UserTC.getResolver("removeMany"),
-//  fakeData: UserTC.getResolver("user"),
+  fakeData: UserTC.getResolver("user"),
 };
 
 module.exports = { UserQuery, UserMutation };

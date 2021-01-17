@@ -10,6 +10,8 @@ const User = new Schema(
     coverImage: String,
     firstName: String,
     lastName: String,
+    gender: String,
+    birthday: Date,
     password: String,
     email: String,
     country: String,
