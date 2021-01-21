@@ -24,4 +24,13 @@ resolver.fakeData = UserTC.addResolver({
   },
 });
 
+/*resolver.numMembers = UserTC.addResolver({
+  name: "user",
+  type: UserTC,
+  args: { record: UserTC.getInputType() },
+  resolve: async ({ source, args }) => {
+
+  },
+});*/
+
 module.exports = resolver;
