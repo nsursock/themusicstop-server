@@ -3,11 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-const { makeExecutableSchema } = require('graphql-tools');
+//const { makeExecutableSchema } = require('graphql-tools');
 const cors = require('cors');
 const mongoose = require("mongoose");
-
-console.log('node env: ' + process.env.NODE_ENV);
 
 // Initialize the app
 const app = express();
@@ -15,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Start server
 const SERVER_PORT = process.env.PORT || 3001;
 app.listen(SERVER_PORT, async () => {
   console.log("server is running: " + SERVER_PORT);
@@ -30,9 +29,8 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-const schema = require("./schemas");
-
 // The GraphQL endpoint
+const schema = require("./schemas");
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 // GraphiQL, a visual editor for queries

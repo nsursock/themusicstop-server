@@ -1,6 +1,4 @@
 const { SchemaComposer } = require( 'graphql-compose');
-
-
 const schemaComposer = new SchemaComposer();
 
 const { UserQuery, UserMutation } = require ('./resolvers/user');
