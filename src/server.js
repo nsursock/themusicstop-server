@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-//const { makeExecutableSchema } = require('graphql-tools');
+const expressPlayground = require('graphql-playground-middleware-express').default
 const cors = require('cors');
 const mongoose = require("mongoose");
 
@@ -35,4 +35,5 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
 // GraphiQL, a visual editor for queries
 if (process.env.NODE_ENV !== 'production')
-  app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+  //app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
