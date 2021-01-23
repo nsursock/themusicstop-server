@@ -6,12 +6,13 @@ resolver.fakeData = UserTC.addResolver({
   type: UserTC,
   args: { record: UserTC.getInputType() },
   resolve: async ({ source, args }) => {
+    let startDate = new Date(1945, 1, 1);
     let user = new UserSchema({
       email: faker.internet.email(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       gender: Math.round(Math.random()) === 0 ? 'M' : 'F',
-      birthday: new Date(new Date(1920,1,1).getTime() + Math.random() * (new Date().getTime() - new Date(1920,1,1).getTime())),
+      birthday: new Date(startDate.getTime() + Math.random() * (new Date().getTime() - startDate.getTime())),
       password: faker.internet.password(),
       website: faker.internet.url(),
       about: faker.lorem.words(),
@@ -23,14 +24,5 @@ resolver.fakeData = UserTC.addResolver({
     return await user.save();
   },
 });
-
-/*resolver.numMembers = UserTC.addResolver({
-  name: "user",
-  type: UserTC,
-  args: { record: UserTC.getInputType() },
-  resolve: async ({ source, args }) => {
-
-  },
-});*/
 
 module.exports = resolver;
