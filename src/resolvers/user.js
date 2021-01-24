@@ -1,5 +1,6 @@
 const { UserTC } = require("../models/user");
 require("../test/user");
+require("./auth");
 const UserQuery = {
   userById: UserTC.getResolver("findById"),
   userByIds: UserTC.getResolver("findByIds"),
@@ -8,6 +9,7 @@ const UserQuery = {
   userCount: UserTC.getResolver("count"),
   userConnection: UserTC.getResolver("connection"),
   userPagination: UserTC.getResolver("pagination"),
+  me: UserTC.getResolver("me")
 };
 
 const UserMutation = {
@@ -20,6 +22,8 @@ const UserMutation = {
   userRemoveOne: UserTC.getResolver("removeOne"),
   userRemoveMany: UserTC.getResolver("removeMany"),
   fakeData: UserTC.getResolver("user"),
+  signup: UserTC.getResolver("signup"),
+  login: UserTC.getResolver("login")
 };
 
 module.exports = { UserQuery, UserMutation };

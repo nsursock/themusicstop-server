@@ -13,16 +13,19 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-//app.use(bodyParser.json());
 
 //const JWT_SECRET = require('crypto').randomBytes(64).toString('hex');
 //console.log('secret: '+JWT_SECRET);
-// const authMiddleware = jwt({
-//   secret: process.env.JWT_SECRET,
-//   algorithms: ['RS256']
-// });
-// app.use(authMiddleware);
 
+// auth middleware
+const auth = jwt({
+  secret: process.env.JWT_SECRET,
+  credentialsRequired: false,
+  algorithms: ['sha1', 'RS256', 'HS256']
+})
+
+
+// start server
 const SERVER_PORT = process.env.PORT || 3001;
 app.listen(SERVER_PORT, async () => {
   console.log("server is running: " + SERVER_PORT);
@@ -33,13 +36,22 @@ app.listen(SERVER_PORT, async () => {
   });
 });
 
+// db error
 mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.use('/api', bodyParser.json(), graphqlExpress({ schema }));
+// graphql endpoint
+app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
+  schema,
+  context: {
+    user: req.user
+  }
+}))
+)
 
+// add ui in dev
 if (process.env.NODE_ENV !== 'production')
-  app.get('/playground', expressPlayground({ endpoint: '/api' }))
-  //app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  app.get('/ui', expressPlayground({ endpoint: '/api' }))
+  //app.use('/ui', graphiqlExpress({ endpointURL: '/api' }));

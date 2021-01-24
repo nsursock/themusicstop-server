@@ -19,7 +19,7 @@ resolver.fakeData = UserTC.addResolver({
       city: faker.address.city(),
       country: faker.address.country(),
       profileImage: faker.random.image(),
-      coverImage: faker.random.image(),
+      coverImage: faker.random.image()
     });
     return await user.save();
   },
