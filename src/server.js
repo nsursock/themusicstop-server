@@ -52,6 +52,6 @@ app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
 )
 
 // add ui in dev
-if (process.env.NODE_ENV !== 'production')
-  app.get('/ui', expressPlayground({ endpoint: '/api' }))
+//if (process.env.NODE_ENV !== 'production')
+app.get('/ui', expressPlayground({ endpoint: '/api' }))
   //app.use('/ui', graphiqlExpress({ endpointURL: '/api' }));
