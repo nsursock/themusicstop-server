@@ -23,7 +23,8 @@ const UserMutation = {
   userRemoveMany: UserTC.getResolver("removeMany"),
   fakeData: UserTC.getResolver("user"),
   signup: UserTC.getResolver("signup"),
-  login: UserTC.getResolver("login")
+  login: UserTC.getResolver("login"),
+  changePassword: UserTC.getResolver("changePassword")
 };
 
 module.exports = { UserQuery, UserMutation };

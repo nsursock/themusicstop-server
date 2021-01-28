@@ -35,11 +35,15 @@ const User = new Schema(
     country: String,
     address: String,
     city: String,
-    region: String,
-    postal: String,
+    state: String,
+    zip: String,
     phone: String,
-  },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+
+    numLike: Number,
+    numLove: Number,
+    numHaha: Number,
+    numSad: Number
+  }
 );
 
 module.exports = {

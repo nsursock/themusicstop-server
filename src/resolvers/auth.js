@@ -19,6 +19,24 @@ resolver.me = UserTC.addResolver({
   }
 });
 
+resolver.changePassword = UserTC.addResolver({
+  name: "changePassword",
+  type: 'String',
+  args: { id: 'String', password: 'String' },
+  resolve: async ({ source, args }) => {
+
+    const filter = { _id: args.id };
+    const update = { password: await argon2.hash(args.password) };
+    const user = await UserSchema.updateOne(
+      filter, update, function (err, docs) {
+        if (err) {
+            throw new Error(err);
+        }
+      });
+    return args.id;
+  },
+});
+
 resolver.signup = UserTC.addResolver({
   name: "signup",
   type: 'String',
@@ -30,7 +48,11 @@ resolver.signup = UserTC.addResolver({
       lastName: args.record.lastName,
       email: args.record.email,
       //password: await bcrypt.hash(args.record.password, 10)
-      password: await argon2.hash(args.record.password)
+      password: await argon2.hash(args.record.password),
+      birthday: args.record.birthday,
+      gender: args.record.gender,
+      city: args.record.city,
+      country: args.record.country
     });
 
     let token = jwt.sign(
@@ -62,7 +84,7 @@ resolver.login = UserTC.addResolver({
     let token = jwt.sign(
         { id: user._id, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: '1y' }
+        { expiresIn: '1d' }
       );
     return token;
   },
