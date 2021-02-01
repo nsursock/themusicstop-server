@@ -18,7 +18,7 @@ resolver.fakeData = UserTC.addResolver({
       birthday: new Date(startDate.getTime() + Math.random() * (new Date().getTime() - startDate.getTime())),
       password: await argon2.hash(email), //faker.internet.password(),
       website: faker.internet.url(),
-      about: faker.lorem.words(),
+      about: faker.lorem.sentences(),
       city: faker.address.city(),
       country: faker.address.country(),
       profileImage: faker.random.image(),

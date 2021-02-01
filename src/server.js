@@ -43,7 +43,7 @@ mongoose.connection.on(
 );
 
 // graphql endpoint
-app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
+app.use('/graphql', bodyParser.json(), auth, graphqlExpress(req => ({
   schema,
   context: {
     user: req.user
@@ -53,5 +53,5 @@ app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
 
 // add ui in dev
 //if (process.env.NODE_ENV !== 'production')
-app.get('/ui', expressPlayground({ endpoint: '/api' }))
+app.get('/ui', expressPlayground({ endpoint: '/graphql' }))
   //app.use('/ui', graphiqlExpress({ endpointURL: '/api' }));
