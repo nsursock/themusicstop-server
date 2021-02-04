@@ -21,7 +21,8 @@ const UserMutation = {
   userRemoveById: UserTC.getResolver("removeById"),
   userRemoveOne: UserTC.getResolver("removeOne"),
   userRemoveMany: UserTC.getResolver("removeMany"),
-  fakeData: UserTC.getResolver("user"),
+  fakeDataFaker: UserTC.getResolver("user"),
+  fakeDataCasual: UserTC.getResolver("user"),
   signup: UserTC.getResolver("signup"),
   login: UserTC.getResolver("login"),
   changePassword: UserTC.getResolver("changePassword")
