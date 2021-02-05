@@ -18,7 +18,7 @@ MessageTC.addResolver({
       select('memberId2 -_id').
       exec();
     friendsCol1.forEach((item, i) => {
-      friendsId.push(item.memberId2);
+      friendsId.push(item.memberId2.toString());
     });
 
     let friendsCol2 = await RelationSchema.
@@ -28,23 +28,25 @@ MessageTC.addResolver({
       select('memberId1 -_id').
       exec();
     friendsCol2.forEach((item, i) => {
-      friendsId.push(item.memberId1);
+      friendsId.push(item.memberId1.toString());
     });
 
     friendsId.push(args.id);
 
+    let response = null;
     if (args.type === 'post')
-      return await MessageSchema.
+      response = await MessageSchema.
         find().
         where('authorId').in(friendsId).
         where('messageId').equals(null).
         exec();
     else if (args.type === 'comment')
-      return await MessageSchema.
+      response = await MessageSchema.
         find().
         where('authorId').in(friendsId).
         where('messageId').ne(null).
         exec();
+    return response;
   },
 });
 
