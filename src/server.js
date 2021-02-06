@@ -60,7 +60,7 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.post("/api/charge", (req, res) => {
+app.post("/api/charge", bodyParser.json(), (req, res) => {
   try {
     stripe.customers
     .create({
@@ -88,13 +88,15 @@ app.post("/api/charge", (req, res) => {
 });
 
 // graphql endpoint
-app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
-  schema,
-  context: {
-    user: req.user
-  }
-}))
-)
+app.use('/api',
+  bodyParser.json(),
+  auth,
+  graphqlExpress(req => ({
+    schema,
+    context: {
+      user: req.user
+    }
+})));
 
 // add ui in dev
 //if (process.env.NODE_ENV !== 'production')
