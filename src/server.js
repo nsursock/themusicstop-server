@@ -57,7 +57,7 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.post("/api/charge", (req, res) => {
+app.post("/api/charge", cors(), (req, res) => {
   try {
     stripe.customers
     .create({
