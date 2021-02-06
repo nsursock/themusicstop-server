@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 const schema = require("./schemas");
 const jwt = require('express-jwt')
 
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+
 const app = express();
 
 app.use(express.json());
@@ -18,11 +20,11 @@ app.use(cors());
 //console.log('secret: '+JWT_SECRET);
 
 // auth middleware
-const auth = jwt({
+const auth = jwt( {
   secret: process.env.JWT_SECRET,
   credentialsRequired: false,
   algorithms: ['sha1', 'RS256', 'HS256']
-})
+});
 
 
 // start server
@@ -41,6 +43,33 @@ mongoose.connection.on(
   "error",
   console.error.bind(console, "MongoDB connection error:")
 );
+
+app.post("/api/charge", (req, res) => {
+  try {
+    stripe.customers
+    .create({
+      name: req.body.firstname + ' ' + req.body.lastname,
+      email: req.body.email,
+      source: req.body.token
+    })
+    .then(customer =>
+      stripe.charges.create({
+        amount: req.body.amount,
+        currency: req.body.currency,
+        customer: customer.id
+      }, (e, c) => { // error, charge
+        if (e) {
+          res.json({ error: e, charge: false });
+        } else
+          res.json({ error: false, charge: c});
+      })
+    )
+    .then(() => console.log('completed'))
+    .catch(err => console.log(err));
+  } catch (err) {
+    res.send(err);
+  }
+});
 
 // graphql endpoint
 app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
