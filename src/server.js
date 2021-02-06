@@ -11,13 +11,8 @@ const jwt = require('express-jwt')
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const app = express();
-app.all('/', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next()
-});
 app.use(express.json());
-//app.use(cors({ origin: 'https://themusicstop.app' }));
+app.use(cors({ origin: '*' }));
 // app.use(cors({
 //   'allowedHeaders': ['sessionId', 'Content-Type'],
 //   'exposedHeaders': ['sessionId'],
