@@ -14,7 +14,14 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: 'https://themusicstop.app' }));
+//app.use(cors({ origin: 'https://themusicstop.app' }));
+app.use(cors({
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}));
 
 //const JWT_SECRET = require('crypto').randomBytes(64).toString('hex');
 //console.log('secret: '+JWT_SECRET);
