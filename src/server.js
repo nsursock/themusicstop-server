@@ -23,7 +23,8 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true
+  credentials: true,
+  preflightContinue: false
 }
 app.use(cors(corsOptions));
 
