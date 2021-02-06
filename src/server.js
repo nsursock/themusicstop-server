@@ -12,10 +12,10 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const app = express();
 app.use(express.json());
-app.options('*', cors({
-    origin: ['http://themusicstop.app', 'http://localhost:3000']
-  })
-);
+app.use(cors({
+  origin: ['http://themusicstop.app', 'http://localhost:3000'],
+  credentials: true
+}));
 
 // const whitelist = ['http://themusicstop.app', 'http://localhost:3000']
 // const corsOptions = {
@@ -57,7 +57,7 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.post("/api/charge", cors(), (req, res) => {
+app.post("/api/charge", (req, res) => {
   try {
     stripe.customers
     .create({
