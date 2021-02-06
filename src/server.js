@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const expressPlayground = require('graphql-playground-middleware-express').default
 const cors = require('cors');
+const methodOverride = require('method-override');
 const mongoose = require("mongoose");
 const schema = require("./schemas");
 const jwt = require('express-jwt')
@@ -12,10 +13,12 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: ['http://themusicstop.app', 'http://localhost:3000'],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: ['http://themusicstop.app', 'http://localhost:3000'],
+//   credentials: true
+// }));
+app.use(cors());
+app.use(methodOverride());
 
 // const whitelist = ['http://themusicstop.app', 'http://localhost:3000']
 // const corsOptions = {
