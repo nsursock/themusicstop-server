@@ -8,20 +8,23 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const schema = require("./schemas");
 const jwt = require('express-jwt')
-
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const app = express();
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://themusicstop.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(express.json());
 //app.use(cors({ origin: 'https://themusicstop.app' }));
-app.use(cors({
-  'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
-  'origin': '*',
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'preflightContinue': false
-}));
+// app.use(cors({
+//   'allowedHeaders': ['sessionId', 'Content-Type'],
+//   'exposedHeaders': ['sessionId'],
+//   'origin': '*',
+//   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   'preflightContinue': false
+// }));
 
 //const JWT_SECRET = require('crypto').randomBytes(64).toString('hex');
 //console.log('secret: '+JWT_SECRET);
