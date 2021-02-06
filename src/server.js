@@ -13,13 +13,25 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 const app = express();
 app.use(express.json());
 // app.use(cors({ origin: '*' }));
-app.use(cors({
-  'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
-  'origin': '*',
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'preflightContinue': false
-}));
+// app.use(cors({
+//   'allowedHeaders': ['sessionId', 'Content-Type'],
+//   'exposedHeaders': ['sessionId'],
+//   'origin': '*',
+//   'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   'preflightContinue': false
+// }));
+
+const whitelist = ['https://themusicstop.app/', 'http://localhost:3000']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
+app.options('*', cors());
 
 //const JWT_SECRET = require('crypto').randomBytes(64).toString('hex');
 //console.log('secret: '+JWT_SECRET);
@@ -49,7 +61,7 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.post("/api/charge", (req, res) => {
+app.post("/api/charge", cors(corsOptions), (req, res) => {
   try {
     stripe.customers
     .create({
