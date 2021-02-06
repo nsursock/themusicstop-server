@@ -12,9 +12,10 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: ['http://themusicstop.app', 'http://localhost:3000']
-}));
+app.options('*', cors({
+    origin: ['http://themusicstop.app', 'http://localhost:3000']
+  })
+);
 
 // const whitelist = ['http://themusicstop.app', 'http://localhost:3000']
 // const corsOptions = {
