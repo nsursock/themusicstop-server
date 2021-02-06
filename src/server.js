@@ -14,16 +14,18 @@ const app = express();
 app.use(express.json());
 //app.use(cors());
 
-var allowlist = ['https://themusicstop.app', 'http://localhost:3000']
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
-  if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false } // disable CORS for this request
-  }
-  callback(null, corsOptions) // callback expects two parameters: error and options
+const whitelist = ['https://themusicstop.app', 'http://localhost:3000']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
 }
+app.use(cors(corsOptions));
 
 //const JWT_SECRET = require('crypto').randomBytes(64).toString('hex');
 //console.log('secret: '+JWT_SECRET);
@@ -53,7 +55,7 @@ mongoose.connection.on(
   console.error.bind(console, "MongoDB connection error:")
 );
 
-app.post("/api/charge", cors(corsOptionsDelegate), (req, res) => {
+app.post("/api/charge", (req, res) => {
   try {
     stripe.customers
     .create({
@@ -81,7 +83,7 @@ app.post("/api/charge", cors(corsOptionsDelegate), (req, res) => {
 });
 
 // graphql endpoint
-app.use('/api', cors(corsOptionsDelegate), bodyParser.json(), auth, graphqlExpress(req => ({
+app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
   schema,
   context: {
     user: req.user
