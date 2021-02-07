@@ -16,6 +16,8 @@ resolver.donate = UserTC.addResolver({
   },
   resolve: async ({ source, args }) => {
 
+    console.log('stripe key' + process.env.STRIPE_KEY);
+
     let response = await
       stripe.customers
         .create({
