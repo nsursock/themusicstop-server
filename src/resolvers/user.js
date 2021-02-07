@@ -1,6 +1,8 @@
 const { UserTC } = require("../models/user");
 require("../test/user");
 require("./auth");
+require("./payment")
+
 const UserQuery = {
   userById: UserTC.getResolver("findById"),
   userByIds: UserTC.getResolver("findByIds"),
@@ -9,7 +11,8 @@ const UserQuery = {
   userCount: UserTC.getResolver("count"),
   userConnection: UserTC.getResolver("connection"),
   userPagination: UserTC.getResolver("pagination"),
-  me: UserTC.getResolver("me")
+  me: UserTC.getResolver("me"),
+  donate: UserTC.getResolver("donate")
 };
 
 const UserMutation = {
