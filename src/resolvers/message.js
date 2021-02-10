@@ -39,12 +39,25 @@ MessageTC.addResolver({
         find().
         where('authorId').in(friendsId).
         where('messageId').equals(null).
+        where('recipientId').equals(null).
         exec();
     else if (args.type === 'comment')
       response = await MessageSchema.
         find().
         where('authorId').in(friendsId).
         where('messageId').ne(null).
+        exec();
+    else if (args.type === 'email-sent')
+      response = await MessageSchema.
+        find().
+        where('authorId').equals(args.id).
+        where('subject').ne(null).
+        exec();
+    else if (args.type === 'email-received')
+      response = await MessageSchema.
+        find().
+        where('recipientId').equals(args.id).
+        where('subject').ne(null).
         exec();
     return response;
   },

@@ -29,6 +29,8 @@ const User = new Schema(
         trim: true,
         unique: true,
         required: true,
+        index: true,
+        sparse: true
     },
     country: String,
     address: String,
@@ -45,6 +47,7 @@ const User = new Schema(
 );
 
 module.exports = {
+  User: User,
   UserSchema: mongoose.model("users", User),
   UserTC: composeWithMongoose(mongoose.model("users", User)),
 };

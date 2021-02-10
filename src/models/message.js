@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { composeWithMongoose } = require("graphql-compose-mongoose");
-// const User = require('../models/user');
+//const { User } = require('./user');
 const Schema = mongoose.Schema;
 
 const Message = new Schema(
@@ -8,6 +8,11 @@ const Message = new Schema(
     text: {
       type: String,
       required: true,
+    },
+    subject: {
+      type: String,
+      required: false,
+      default: null
     },
     publishedAt: {
       type: Date,
@@ -18,10 +23,20 @@ const Message = new Schema(
       ref: 'User',
       required: true,
     },
-    messageId: {
+    recipientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: false,
+      default: null
+    },
+    messageId: { // relatedId #todo
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Message',
       default: null,
+    },
+    flagged: {
+      type: Boolean,
+      default: false,
     },
     numLike: Number,
     numLove: Number,
