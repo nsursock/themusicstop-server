@@ -42,7 +42,10 @@ const User = new Schema(
     numLike: Number,
     numLove: Number,
     numHaha: Number,
-    numSad: Number
+    numSad: Number,
+
+    publicKey: String,
+    privateKey: String
   }
 );
 
