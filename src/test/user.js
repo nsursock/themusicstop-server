@@ -45,6 +45,7 @@ resolver.fakeDataCasual = UserTC.addResolver({
 
     let user = new UserSchema({
       email: email,
+      userName: casual.username,
       firstName: casual.first_name,
       lastName: casual.last_name,
       gender: casual.coin_flip ? 'M' : 'F',

@@ -32,6 +32,14 @@ const User = new Schema(
         index: true,
         sparse: true
     },
+    userName: {
+        type: String,
+        trim: true,
+        unique: true,
+        required: true,
+        index: true,
+        sparse: true
+    },
     country: String,
     address: String,
     city: String,
@@ -46,6 +54,9 @@ const User = new Schema(
 
     publicKey: String,
     privateKey: String
+  },
+  {
+    timestamps: true,
   }
 );
 

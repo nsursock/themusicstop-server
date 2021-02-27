@@ -5,19 +5,19 @@ const jwt = require('jsonwebtoken')
 
 const resolver = function () {};
 
-resolver.me = UserTC.addResolver({
-  name: "me",
-  type: UserTC,
-  args: { record: UserTC.getInputType() },
-  resolve: async ({ source, args, context }) => {
-
-    console.log(context);
-    if (!context.user) {
-      throw new Error('You are not authenticated!');
-    }
-    return await UserSchema.findById(context.user.id);
-  }
-});
+// resolver.me = UserTC.addResolver({
+//   name: "me",
+//   type: UserTC,
+//   args: { record: UserTC.getInputType() },
+//   resolve: async ({ source, args, context }) => {
+//
+//     console.log(context);
+//     if (!context.user) {
+//       throw new Error('You are not authenticated!');
+//     }
+//     return await UserSchema.findById(context.user.id);
+//   }
+// });
 
 resolver.changePassword = UserTC.addResolver({
   name: "changePassword",
@@ -47,6 +47,7 @@ resolver.signup = UserTC.addResolver({
       firstName: args.record.firstName,
       lastName: args.record.lastName,
       email: args.record.email,
+      userName: args.record.userName,
       //password: await bcrypt.hash(args.record.password, 10)
       password: await argon2.hash(args.record.password),
       birthday: args.record.birthday,
@@ -56,7 +57,7 @@ resolver.signup = UserTC.addResolver({
     });
 
     let token = jwt.sign(
-        { id: user._id, email: user.email },
+        { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: '1y' }
       );
@@ -67,22 +68,22 @@ resolver.signup = UserTC.addResolver({
 resolver.login = UserTC.addResolver({
   name: "login",
   type: 'String',
-  args: { record: UserTC.getInputType() },
+  args: { username: 'String', password: 'String' },
   resolve: async ({ source, args }) => {
 
-    const user = await UserSchema.findOne({email: args.record.email });
+    const user = await UserSchema.findOne({userName: args.username });
     if (!user) {
-      throw new Error('Incorrect email')
+      throw new Error('Incorrect username')
     }
 
     //const valid = await bcrypt.compare(args.record.password, user.password);
-    const valid = await argon2.verify(user.password, args.record.password);
+    const valid = await argon2.verify(user.password, args.password);
     if (!valid) {
       throw new Error('Incorrect password')
     }
 
     let token = jwt.sign(
-        { id: user._id, email: user.email },
+        { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: '1d' }
       );

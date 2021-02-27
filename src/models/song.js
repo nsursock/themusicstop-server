@@ -4,11 +4,26 @@ const { composeWithMongoose } = require("graphql-compose-mongoose");
 const SongSchema = new Schema(
   {
     title: String,
-    author: [String],
-    cover: String,
-    tags: [String],
+    artist: String,
+    album: String,
+    genre: String,
+    releaseDate: Date,
+    time: Number,
+    trackNumber: Number,
+    label: String,
+    songId: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        unique: true,
+        required: true,
+        index: true,
+        sparse: true
+    },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = {

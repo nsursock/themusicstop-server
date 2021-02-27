@@ -11,7 +11,7 @@ const UserQuery = {
   userCount: UserTC.getResolver("count"),
   userConnection: UserTC.getResolver("connection"),
   userPagination: UserTC.getResolver("pagination"),
-  me: UserTC.getResolver("me"),
+  // me: UserTC.getResolver("me"),
   donate: UserTC.getResolver("donate")
 };
 
