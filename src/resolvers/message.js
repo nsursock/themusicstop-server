@@ -17,7 +17,7 @@ MessageTC.addResolver({
       where('status').equals('friend').
       select('memberId2 -_id').
       exec();
-    friendsCol1.forEach((item, i) => {
+    friendsCol1.forEach((item) => {
       friendsId.push(item.memberId2.toString());
     });
 
@@ -27,7 +27,7 @@ MessageTC.addResolver({
       where('status').equals('friend').
       select('memberId1 -_id').
       exec();
-    friendsCol2.forEach((item, i) => {
+    friendsCol2.forEach((item) => {
       friendsId.push(item.memberId1.toString());
     });
 

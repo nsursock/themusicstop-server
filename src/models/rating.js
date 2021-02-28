@@ -21,6 +21,10 @@ const Rating = new Schema(
       min: 0, max: 100
     },
     review: String,
+    numLike: Number,
+    numLove: Number,
+    numHaha: Number,
+    numSad: Number
   },
   {
     timestamps: true,
