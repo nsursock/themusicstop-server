@@ -14,10 +14,10 @@ const Message = new Schema(
       required: false,
       default: null
     },
-    publishedAt: {
-      type: Date,
-      required: true,
-    },
+    // publishedAt: {
+    //   type: Date,
+    //   required: true,
+    // },
     authorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
